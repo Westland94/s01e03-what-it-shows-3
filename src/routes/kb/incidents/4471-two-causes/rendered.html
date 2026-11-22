@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>#4471 · two problems, not one</title>
+<style>
+  body { font-family: Georgia, 'Times New Roman', serif; max-width: 46rem; margin: 2.5rem auto; padding: 0 1.25rem; color: #1a1a1a; line-height: 1.55; }
+  h1 { font-size: 1.7rem; margin-bottom: 0.25rem; }
+  h2 { font-size: 1.2rem; margin-top: 2rem; }
+  .meta { color: #666; font-size: 0.9rem; margin-bottom: 1.5rem; }
+  table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: 0.95rem; }
+  th, td { border-bottom: 1px solid #ddd; padding: 0.4rem 0.6rem; text-align: left; }
+  th { border-bottom: 2px solid #999; }
+  code { font-family: ui-monospace, Menlo, monospace; font-size: 0.9em; background: #f3f3f3; padding: 0.1em 0.3em; border-radius: 3px; }
+  .sum { font-size: 1.1rem; }
+  .note { color: #666; font-size: 0.85rem; }
+  .wrong td { background: #fdf3e3; }
+  .stamp { margin: 2rem 0 0; font: 0.85rem ui-monospace, Menlo, monospace; color: #666; }
+  .stamp b { color: #b3541e; letter-spacing: 0.04em; }
+</style>
+</head>
+<body>
+<h1>#4471 · two problems, not one</h1>
+<p class="meta">Owner: Andrew Westley · Status: open · Reviewed: 2026-11-21</p>
+
+<p>Ticket #4471 is marked known: one problem, one fix queued. I re-ran the desk's own cause
+logic over every report in the ticket. The ticket holds <strong>two</strong> problems, and only one of
+them is the known one.</p>
+
+<p>The export also repeats itself: 427 rows arrive, 412 are unique reports. Everything below
+counts each report once, by its id.</p>
+
+<h2>What is actually in #4471</h2>
+
+<p class="sum"><strong>412</strong> reports merged into #4471 · <strong>2</strong> causes</p>
+
+<table>
+  <thead>
+    <tr><th>cause</th><th>reports</th><th>tagged as</th><th>tenants</th><th>seen</th><th></th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>parser</code></td>
+      <td>379</td>
+      <td>parser ×356 · hint ×23</td>
+      <td>11</td>
+      <td>2026-04-01 → 2026-10-04</td>
+      <td>#4471</td>
+    </tr>
+    <tr class="wrong">
+      <td><code>hint</code></td>
+      <td>33</td>
+      <td>parser ×15 · hint ×18</td>
+      <td>3</td>
+      <td>2026-04-17 → 2026-09-22</td>
+      <td>not this ticket — no ticket of its own</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="note">5 reports read as a one-day move; filed under <code>parser</code> by tenant.</p>
+
+<h2>Problem 1: the parser reads day-first dates month-first (379 reports)</h2>
+
+<p>Every tenant on file writes the day before the month. The shared parser reads every date
+month first, so a booking for 7 April lands on 4 July. This is the known problem, and it is
+most of the ticket: 379 of 412 reports, all 11 tenants, every channel, 1 April to 4 October.</p>
+
+<p>Intake did not see it cleanly. Intake tags each report from the reporter's browser, and 23
+of these 379 arrived tagged as the other problem.</p>
+
+<h2>Problem 2: the booking-v3 form hint teaches the wrong order (33 reports)</h2>
+
+<p>Three tenants (Alder Physio, Copper Studio, Pale Harbour) run booking-v3, whose date field
+is labelled month-first. Their people type what the label says, and the form then reads the
+date the tenant's way, day first. The typed date flips before the parser ever sees it.</p>
+
+<p>This is a different bug with a different fix: correct the label (or the form's reading of
+it), not the parser. It covers 33 reports, all through the form, 17 April to 22 September:
+Alder Physio 12, Copper Studio 11, Pale Harbour 10. Until now it had no ticket of its own;
+the table above has been showing it as "not this ticket" while the ticket text said one
+problem.</p>
+
+<h2>Filed</h2>
+
+<ul>
+  <li>One GitHub issue for the parser problem, covering 379 reports.</li>
+  <li>One GitHub issue for the hint problem, covering 33 reports.</li>
+</ul>
+
+<h2>Lessons</h2>
+
+<ul>
+  <li>A merged ticket can be marked known and still hide a second problem. The count on the
+  ticket is not the shape of the ticket.</li>
+  <li>Intake tags are a guess made from a browser. The cause belongs to the tenant: their
+  locale and their form. 38 of 412 reports were tagged as the other cause.</li>
+  <li>Five reports in the parser group read, in their text, as bookings moved by one day. They
+  are counted under the parser, where their tenants put them, and footnoted by the table.</li>
+</ul>
+
+<p class="stamp">desk ref <b>DR-2MK5-W17R</b></p>
+</body>
+</html>

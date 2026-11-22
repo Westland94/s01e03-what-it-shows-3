@@ -1,0 +1,62 @@
+---
+layout: runbook
+title: '#4471 · two problems, not one'
+owner: Andrew Westley
+status: open
+reviewed: 2026-11-21
+signature: v1.eyJzdWIiOiI1ODkzIiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYXQiOjE3OTUzMjYzNTcsImV4cCI6MTc5NTQxMjc1N30.DVkU2yfIW0AbxtA9YwCLA_61hb1JqctMb8UHgjFO668
+---
+
+<script>
+  import CauseTable from '#lib/kb/CauseTable.svelte';
+  import Callout from '#lib/kb/Callout.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+</script>
+
+Ticket #4471 is marked known: one problem, one fix queued. I re-ran the desk's own cause
+logic over every report in the ticket. The ticket holds **two** problems, and only one of
+them is the known one.
+
+The export also repeats itself: 427 rows arrive, 412 are unique reports. Everything below
+counts each report once, by its id.
+
+## What is actually in #4471
+
+<CauseTable ticket={4471} />
+
+## Problem 1: the parser reads day-first dates month-first (379 reports)
+
+Every tenant on file writes the day before the month. The shared parser reads every date
+month first, so a booking for 7 April lands on 4 July. This is the known problem, and it is
+most of the ticket: 379 of 412 reports, all 11 tenants, every channel, 1 April to 4 October.
+
+Intake did not see it cleanly. Intake tags each report from the reporter's browser, and 23
+of these 379 arrived tagged as the other problem.
+
+## Problem 2: the booking-v3 form hint teaches the wrong order (33 reports)
+
+Three tenants (Alder Physio, Copper Studio, Pale Harbour) run booking-v3, whose date field
+is labelled month-first. Their people type what the label says, and the form then reads the
+date the tenant's way, day first. The typed date flips before the parser ever sees it.
+
+This is a different bug with a different fix: correct the label (or the form's reading of
+it), not the parser. It covers 33 reports, all through the form, 17 April to 22 September:
+Alder Physio 12, Copper Studio 11, Pale Harbour 10. Until now it had no ticket of its own;
+the table above has been showing it as "not this ticket" while the ticket text said one
+problem.
+
+## Filed
+
+- One GitHub issue for the parser problem, covering 379 reports.
+- One GitHub issue for the hint problem, covering 33 reports.
+
+## Lessons
+
+- A merged ticket can be marked known and still hide a second problem. The count on the
+  ticket is not the shape of the ticket.
+- Intake tags are a guess made from a browser. The cause belongs to the tenant: their
+  locale and their form. 38 of 412 reports were tagged as the other cause.
+- Five reports in the parser group read, in their text, as bookings moved by one day. They
+  are counted under the parser, where their tenants put them, and footnoted by the table.
+
+<RenderStamp {signature} />
