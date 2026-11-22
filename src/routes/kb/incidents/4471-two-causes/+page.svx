@@ -2,7 +2,7 @@
 layout: runbook
 title: '#4471 · two problems, not one'
 owner: Andrew Westley
-status: open
+status: closed
 reviewed: 2026-11-21
 signature: v1.eyJzdWIiOiI1ODkzIiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYXQiOjE3OTUzMjYzNTcsImV4cCI6MTc5NTQxMjc1N30.DVkU2yfIW0AbxtA9YwCLA_61hb1JqctMb8UHgjFO668
 ---
@@ -49,6 +49,17 @@ problem.
 
 - One GitHub issue for the parser problem, covering 379 reports.
 - One GitHub issue for the hint problem, covering 33 reports.
+
+## Outcome
+
+The desk has since closed #4471 (5 October), and the two problems ended differently:
+
+- The parser problem is fixed: dates are now parsed day/month for EU locales. Its ticket is
+  closed as completed.
+- The hint problem is marked won't fix: booking-v3 is retired, so the form that taught the
+  wrong order is gone. Its ticket is closed as not planned.
+
+This page is closed to match: the split it records is the split the desk acted on.
 
 ## Lessons
 

@@ -2,8 +2,8 @@
 layout: runbook
 title: '#4471 · dates parse mm/dd in eu locales'
 owner: support desk
-status: known
-reviewed: 2026-09-30
+status: closed
+reviewed: 2026-10-05
 ---
 
 <script>
@@ -19,7 +19,10 @@ Since April, people have told us their bookings land on the wrong day: a month f
 first. The fix is queued.
 
 <Callout>
-Known. One issue, one fix queued.
+Closed 5 October. Not one issue after all: the merge held two problems. The parser problem
+(379 reports) is fixed — dates now parse day/month for EU locales. The booking-v3 hint
+problem (33 reports) is won't fix — the form is retired. The split is recorded on the
+4471-two-causes page.
 </Callout>
 
 ## What was merged
@@ -29,6 +32,11 @@ Known. One issue, one fix queued.
 ## Since April
 
 <QueueTimeline ticket={4471} />
+
+## Outcome
+
+Closed 5 October. Parser: fixed — dates parse day/month for EU locales. Booking-v3 hint:
+won't fix — the form is retired.
 
 ## Lessons
 
